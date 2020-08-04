@@ -21,7 +21,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
-      run: mvn -B demo-backend-spring-boot --file pom.xml
+      run: mvn -B package --file pom.xml
 
 
     - name: Checkout code
