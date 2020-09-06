@@ -70,7 +70,7 @@
 						<version>2.2.0</version>
 						<configuration>
 							<to>
-								<image>${DockerHubUsername}/${project.artifactId}</image>
+								<image>pablon27/${project.artifactId}</image>
 								<tags>
 									<tag>${project.version}</tag>
 									<tag>latest</tag>
