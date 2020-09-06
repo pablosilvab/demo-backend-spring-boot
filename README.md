@@ -26,4 +26,6 @@ docker run -p 8080:8080 demo-backend-spring-boot
 ```
 
 Consultar healthy: http://localhost:8080/actuator/health
+Ejecutar contenedor Docker: docker run -p 8080:8080 -t pablon27/demo-backend-spring-boot
+
 
