@@ -24,3 +24,6 @@ docker run -p 8080:8080 demo-backend-spring-boot
 ```
 ./mvnw package && java -jar target/demo-backend-spring-boot-0.0.1.jar
 ```
+
+Consultar healthy: http://localhost:8080/actuator/health
+
