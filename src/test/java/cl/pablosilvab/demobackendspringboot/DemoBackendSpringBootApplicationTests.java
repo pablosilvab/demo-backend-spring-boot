@@ -1,13 +1,27 @@
 package cl.pablosilvab.demobackendspringboot;
 
-import org.junit.jupiter.api.Test;
+
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import cl.pablosilvab.demobackendspringboot.service.GreetingService;
+
+@RunWith(SpringRunner.class)
 @SpringBootTest
-class DemoBackendSpringBootApplicationTests {
+public class DemoBackendSpringBootApplicationTests {
 
+	@Autowired
+	private GreetingService greetingService;
+	
 	@Test
-	void contextLoads() {
+	public void saludarPersonaTest() {
+		String retorno = greetingService.saludar("Pablo");
+		assertTrue(retorno.equalsIgnoreCase(retorno));
 	}
 
 }
