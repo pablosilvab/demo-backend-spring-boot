@@ -8,12 +8,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/projects")
 public class ProjectController {
 
     @Autowired
     ProjectService projectService;
+
+    @GetMapping("/")
+    public ResponseEntity<List<Project>> getAll() {
+        return ResponseEntity.ok(projectService.findAll());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable String id) {

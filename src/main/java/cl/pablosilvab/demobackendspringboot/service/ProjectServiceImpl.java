@@ -3,6 +3,9 @@ package cl.pablosilvab.demobackendspringboot.service;
 import cl.pablosilvab.demobackendspringboot.model.Project;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
@@ -31,6 +34,14 @@ public class ProjectServiceImpl implements ProjectService {
             projectById.setUrl(project.getUrl());
             return projectById;
         }
+    }
+
+    @Override
+    public List<Project> findAll() {
+        return Arrays.asList(
+                new Project(1, "Demo Kubernetes", "https://github.com/pablosilvab/demo-kubernetes-examples"),
+                new Project(2, "Demo Backend Spring Boot", "https://github.com/pablosilvab/demo-backend-spring-boot")
+        );
     }
 
 }
