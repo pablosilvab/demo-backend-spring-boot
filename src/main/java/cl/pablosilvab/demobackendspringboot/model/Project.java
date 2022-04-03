@@ -1,37 +1,19 @@
 package cl.pablosilvab.demobackendspringboot.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Data
 public class Project {
     private int id;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("url")
     private String url;
-
-    public Project(int id, String name, String url) {
-        this.id = id;
-        this.name = name;
-        this.url = url;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

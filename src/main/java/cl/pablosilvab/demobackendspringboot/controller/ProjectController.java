@@ -2,6 +2,7 @@ package cl.pablosilvab.demobackendspringboot.controller;
 
 import cl.pablosilvab.demobackendspringboot.model.Project;
 import cl.pablosilvab.demobackendspringboot.service.ProjectService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("api/v1/projects")
 public class ProjectController {
@@ -38,8 +40,9 @@ public class ProjectController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Project> create(@RequestBody Project student) {
-        Project newProject = projectService.create(student);
+    public ResponseEntity<Project> create(@RequestBody Project project) {
+        log.info("new project {}", project.toString());
+        Project newProject = projectService.create(project);
         if (newProject == null) {
             return ResponseEntity.notFound().build();
         } else {
