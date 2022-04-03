@@ -1,0 +1,10 @@
+    ___                                             ___                            _                                   _
+   F __".     ____      _ _____       ____         F _ ",     ___ _      ____     FJ __       ____      _ ___       ___FJ
+  J |--\ L   F __ J    J '_  _ `,    F __ J       J `-'(|    F __` L    F ___J.  J |/ /L     F __ J    J '__ J     F __  L
+  | |  J |  | _____J   | |_||_| |   | |--| |      | ,--.\   | |--| |   | |---LJ  |    \     | _____J   | |__| |   | |--| |
+  F L__J |  F L___--.  F L LJ J J   F L__J J      F L__J \  F L__J J   F L___--. F L:\ J    F L___--.  F L  J J   F L__J J
+ J______/F J\______/F J__L LJ J__L J\______/F    J_______J J\____,__L J\______/FJ__L \\_J. J\______/F J__L  J__L J\____,__L
+ |______F   J______F  |__L LJ J__|  J______F     |_______F  J____,__F  J______F |__L  \L_|  J______F  |__L  J__|  J____,__F
+
+${application.title} ${application.version}
+Powered by Spring Boot ${spring-boot.version}
