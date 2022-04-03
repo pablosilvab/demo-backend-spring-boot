@@ -1,4 +1,4 @@
-package cl.pablosilvab.demobackendspringboot;
+package cl.pablosilvab.demobackendspringboot.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

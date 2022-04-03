@@ -1,28 +1,27 @@
 package cl.pablosilvab.demobackendspringboot.service;
 
 import cl.pablosilvab.demobackendspringboot.model.Project;
+import cl.pablosilvab.demobackendspringboot.repository.ProjectRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
-    // TODO: use any database. project id = 0 for simulate that a project doesn't exists
+    @Autowired
+    ProjectRepository projectRepository;
 
     @Override
     public Project find(int id) {
-        if (id == 0) return null;
-        return new Project(
-                1,
-                "Demo Kubernetes",
-                "https://github.com/pablosilvab/demo-kubernetes-examples");
+        return projectRepository.findById(id).orElse(null);
     }
 
     @Override
     public Project create(Project student) {
-        return student;
+        Project saved = projectRepository.save(student);
+        return saved;
     }
 
     @Override
@@ -32,16 +31,13 @@ public class ProjectServiceImpl implements ProjectService {
         else {
             projectById.setName(project.getName());
             projectById.setUrl(project.getUrl());
-            return projectById;
+            return projectRepository.save(projectById);
         }
     }
 
     @Override
     public List<Project> findAll() {
-        return Arrays.asList(
-                new Project(1, "Demo Kubernetes", "https://github.com/pablosilvab/demo-kubernetes-examples"),
-                new Project(2, "Demo Backend Spring Boot", "https://github.com/pablosilvab/demo-backend-spring-boot")
-        );
+        return projectRepository.findAll();
     }
 
 }
