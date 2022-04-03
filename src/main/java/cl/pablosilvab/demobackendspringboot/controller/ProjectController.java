@@ -39,4 +39,20 @@ public class ProjectController {
             return new ResponseEntity<>(newProject, HttpStatus.CREATED);
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Project> update(@RequestBody Project project, @PathVariable String id) {
+        try {
+            int idValue = Integer.parseInt(id);
+            Project updatedProject = projectService.update(idValue, project);
+            if (updatedProject == null) {
+                return ResponseEntity.notFound().build();
+            } else {
+                return ResponseEntity.ok(updatedProject);
+            }
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+    }
 }
