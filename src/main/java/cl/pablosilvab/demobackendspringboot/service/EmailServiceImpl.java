@@ -18,6 +18,7 @@ public class EmailServiceImpl implements EmailService {
 
     public void sendSimpleMessage(Message m) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(m.getName());
         message.setTo(to);
         message.setSubject(m.getSubject());
         message.setText(m.getText());

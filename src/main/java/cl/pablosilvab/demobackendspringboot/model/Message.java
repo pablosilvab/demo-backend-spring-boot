@@ -10,6 +10,8 @@ import lombok.ToString;
 @ToString
 @Data
 public class Message {
+    private String name;
+    private String contact;
     private String subject;
     private String text;
 }
