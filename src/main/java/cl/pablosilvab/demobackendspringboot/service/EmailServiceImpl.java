@@ -5,7 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+
+import javax.mail.internet.MimeMessage;
 
 @Component
 public class EmailServiceImpl implements EmailService {
@@ -17,12 +21,13 @@ public class EmailServiceImpl implements EmailService {
     private String to;
 
     public void sendSimpleMessage(Message m) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(m.getName());
-        message.setTo(to);
-        message.setSubject(m.getSubject());
-        message.setText(m.getText());
-        emailSender.send(message);
+        MimeMessage mimeMessage = emailSender.createMimeMessage();
+        MimeMailMessage mimeMailMessage = new MimeMailMessage(mimeMessage);
+        mimeMailMessage.setFrom(m.getName());
+        mimeMailMessage.setTo(to);
+        mimeMailMessage.setSubject(m.getSubject());
+        mimeMailMessage.setText(m.getText());
+        emailSender.send(mimeMailMessage.getMimeMessage());
 
     }
 }
