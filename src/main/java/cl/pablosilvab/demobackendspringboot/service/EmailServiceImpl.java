@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Component
@@ -20,14 +21,14 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.to}")
     private String to;
 
-    public void sendSimpleMessage(Message m) {
+    public void sendSimpleMessage(Message m) throws MessagingException {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
-        MimeMailMessage mimeMailMessage = new MimeMailMessage(mimeMessage);
-        mimeMailMessage.setFrom(m.getName());
-        mimeMailMessage.setTo(to);
-        mimeMailMessage.setSubject(m.getSubject());
-        mimeMailMessage.setText(m.getText());
-        emailSender.send(mimeMailMessage.getMimeMessage());
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
+        mimeMessageHelper.setFrom("Contact - <info@pablosilvab.github.io/>");
+        mimeMessageHelper.setTo(to);
+        mimeMessageHelper.setSubject(m.getSubject());
+        mimeMessageHelper.setText(m.getText());
+        emailSender.send(mimeMessageHelper.getMimeMessage());
 
     }
 }
