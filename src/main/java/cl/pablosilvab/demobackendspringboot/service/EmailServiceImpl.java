@@ -26,7 +26,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendSimpleMessage(Message m)  {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
-        mimeMessageHelper.setFrom("Contact - <info@pablosilvab.github.io/>");
+        mimeMessageHelper.setFrom("Contact - <info@pablosilvab.github.io>");
         mimeMessageHelper.setTo(to);
         mimeMessageHelper.setSubject(m.getSubject());
         mimeMessageHelper.setText(m.getText());
