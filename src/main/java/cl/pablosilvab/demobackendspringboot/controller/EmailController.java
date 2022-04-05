@@ -4,6 +4,7 @@ package cl.pablosilvab.demobackendspringboot.controller;
 import cl.pablosilvab.demobackendspringboot.model.Message;
 import cl.pablosilvab.demobackendspringboot.model.Project;
 import cl.pablosilvab.demobackendspringboot.service.EmailService;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ public class EmailController {
     @Autowired
     EmailService emailService;
 
+    @SneakyThrows
     @PostMapping("/")
     public ResponseEntity<Message> sendMail(@RequestBody Message message) {
         log.info("send mail {}", message.toString());
