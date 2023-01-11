@@ -1,34 +1,33 @@
 package cl.pablosilvab.demobackendspringboot.controller;
 
-import cl.pablosilvab.demobackendspringboot.model.Project;
-import cl.pablosilvab.demobackendspringboot.service.ProjectService;
+import cl.pablosilvab.demobackendspringboot.model.Product;
+import cl.pablosilvab.demobackendspringboot.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("api/v1/projects")
-public class ProjectController {
+@RequestMapping("api/v1/products")
+public class ProductController {
 
     @Autowired
-    ProjectService projectService;
+    ProductService productService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Project>> getAll() {
-        return ResponseEntity.ok(projectService.findAll());
+    public ResponseEntity<List<Product>> getAll() {
+        return ResponseEntity.ok(productService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable String id) {
         try {
-            int idValue = Integer.parseInt(id);
-            Project foundProject = projectService.find(idValue);
+            long idValue = Long.parseLong(id);
+            Product foundProject = productService.find(idValue);
             if (foundProject == null) {
                 return ResponseEntity.notFound().build();
             } else {
@@ -40,9 +39,9 @@ public class ProjectController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Project> create(@RequestBody Project project) {
+    public ResponseEntity<Product> create(@RequestBody Product project) {
         log.info("new project {}", project.toString());
-        Project newProject = projectService.create(project);
+        Product newProject = productService.create(project);
         if (newProject == null) {
             return ResponseEntity.notFound().build();
         } else {
@@ -51,10 +50,10 @@ public class ProjectController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Project> update(@RequestBody Project project, @PathVariable String id) {
+    public ResponseEntity<Product> update(@RequestBody Product product, @PathVariable String id) {
         try {
-            int idValue = Integer.parseInt(id);
-            Project updatedProject = projectService.update(idValue, project);
+            long idValue = Long.parseLong(id);
+            Product updatedProject = productService.update(idValue, product);
             if (updatedProject == null) {
                 return ResponseEntity.notFound().build();
             } else {

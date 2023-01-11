@@ -16,12 +16,14 @@ import javax.persistence.Id;
 @ToString
 @Data
 @Entity
-public class Project {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("url")
-    private String url;
+    @JsonProperty("description")
+    private String description;
+    @JsonProperty("price")
+    private long price;
 }

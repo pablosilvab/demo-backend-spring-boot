@@ -37,10 +37,10 @@ public class StepDefs extends SpringIntegrationTest {
         return RestAssured.given();
     }
 
-    @Given("A list of projects are available")
+    @Given("A list of products are available")
     public void setupEndpoint() {
         validatableResponse = requestSpecification().contentType(ContentType.JSON)
-                .when().get("api/v1/projects/").then();
+                .when().get("api/v1/products/").then();
         jsonString = validatableResponse.extract().asString();
         log.info("Response: {}", jsonString);
     }
@@ -50,7 +50,7 @@ public class StepDefs extends SpringIntegrationTest {
         validatableResponse.assertThat().statusCode(statusCode);
     }
 
-    @When("I add a project to system")
+    @When("I add a product to system")
     public void addProject() throws JSONException {
         String requestBody = "{\n" +
                 "  \"name\": \"Bunny\",\n" +
@@ -61,22 +61,22 @@ public class StepDefs extends SpringIntegrationTest {
                 .and()
                 .body(requestBody)
                 .when()
-                .post("api/v1/projects/")
+                .post("api/v1/products/")
                 .then()
                 .extract().response();
     }
 
-    @Then("The project is added")
-    public void projectIsAdded() {
+    @Then("The product is added")
+    public void productIsAdded() {
         Assertions.assertEquals(201, response.getStatusCode());
     }
 
-    @And("The project list has more than one item")
+    @And("The products list has more than one item")
     public void theProjectHasTheName() throws JSONException, JsonProcessingException {
         RequestSpecification request = RestAssured.given();
-        response = request.get("/api/v1/projects/");
+        response = request.get("/api/v1/products/");
         jsonString = response.asString();
-        List<Map<String, String>> projects = JsonPath.from(jsonString).get("projects");
+        List<Map<String, String>> projects = JsonPath.from(jsonString).get("products");
         Assertions.assertTrue(projects.size() > 0);
     }
 

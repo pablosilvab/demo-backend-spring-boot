@@ -1,9 +1,9 @@
-Feature: Test CRUD method in Projects REST API
+Feature: Test CRUD method in products REST API
 
-  Scenario: The user is able to add and remove projects.
-    Given A list of projects are available
+  Scenario: The user is able to add and remove product.
+    Given A list of products are available
     Then I receive valid HTTP response code 200
-    When I add a project to system
-    Then The project is added
-    And The project list has more than one item
+    When I add a product to system
+    Then The product is added
+    And The products list has more than one item
 
