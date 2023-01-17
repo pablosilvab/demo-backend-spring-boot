@@ -1,31 +1,30 @@
 # Demo Spring Boot
 
-El objetivo de este proyecto es disponibilizar un microservicio desarrollado en Java utilizando Spring Boot.
+This project is an API for products management. 
+ 
+## Build with
 
-## Ejecución 
+* Java 
+* Spring Boot
+ 
 
-1. Construir imagen Docker
+## Features
 
+This API provide the following endpoints:
+
+* Get all products: GET `/api/v1/products`
+* Get product by id: GET `/api/v1/products/1`
+* Create a product: POST `/api/v1/products/`
+
+## Details 
+
+### Create a product POST
+
+```json
+{
+    "name": "SoundBar",
+    "description": "Sounbar",
+    "price": 15000,
+    "stock": 50
+}
 ```
-docker build -t demo-backend-spring-boot .
-```
-
-2. Ejecutar imagen Docker 
-
-```
-docker run -p 8080:8080 demo-backend-spring-boot
-```
-
-
-## Otros
-
-* Comando maven 
-
-```
-./mvnw package && java -jar target/demo-backend-spring-boot-0.0.1.jar
-```
-
-Consultar healthy: http://localhost:8080/actuator/health
-Ejecutar contenedor Docker: docker run -p 8080:8080 -t pablon27/demo-backend-spring-boot
-
-

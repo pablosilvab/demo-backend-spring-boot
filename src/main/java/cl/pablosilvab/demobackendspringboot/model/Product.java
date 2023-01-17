@@ -6,22 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Data
 @Entity
-public class Project {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("url")
-    private String url;
+    @JsonProperty("description")
+    private String description;
+    @JsonProperty("price")
+    private long price;
+    @JsonProperty("stock")
+    private long stock;
 }
