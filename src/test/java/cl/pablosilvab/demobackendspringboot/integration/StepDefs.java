@@ -1,5 +1,6 @@
 package cl.pablosilvab.demobackendspringboot.integration;
 
+import cl.pablosilvab.demobackendspringboot.model.Product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -16,7 +17,9 @@ import org.json.JSONException;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class StepDefs extends SpringIntegrationTest {
@@ -50,11 +53,13 @@ public class StepDefs extends SpringIntegrationTest {
         validatableResponse.assertThat().statusCode(statusCode);
     }
 
-    @When("I add a product to system")
-    public void addProject() throws JSONException {
+    @When("I add a product {string} with {int} units to system")
+    public void addProject(String name, int units) throws JSONException {
         String requestBody = "{\n" +
-                "  \"name\": \"Bunny\",\n" +
-                "  \"url\": \"www.google.cl\" \n}";
+                "  \"name\": \" " + name + " \",\n" +
+                "  \"description\":  \" " + name + "\" ,\n" +
+                "  \"price\": \"15000\",\n" +
+                "  \"stock\": \" " + units + " \" \n}";
 
         response = RestAssured.given()
                 .header("Content-type", "application/json")
@@ -66,9 +71,9 @@ public class StepDefs extends SpringIntegrationTest {
                 .extract().response();
     }
 
-    @Then("The product is added")
-    public void productIsAdded() {
-        Assertions.assertEquals(201, response.getStatusCode());
+    @Then("The product is added and the response code is {int}")
+    public void productIsAdded(int statusCode) {
+        Assertions.assertEquals(statusCode, response.getStatusCode());
     }
 
     @And("The products list has more than one item")
@@ -76,9 +81,8 @@ public class StepDefs extends SpringIntegrationTest {
         RequestSpecification request = RestAssured.given();
         response = request.get("/api/v1/products/");
         jsonString = response.asString();
-        List<Map<String, String>> projects = JsonPath.from(jsonString).get("products");
+        List<Map<String, String>> projects = JsonPath.from(jsonString).get("data");
         Assertions.assertTrue(projects.size() > 0);
     }
-
 
 }

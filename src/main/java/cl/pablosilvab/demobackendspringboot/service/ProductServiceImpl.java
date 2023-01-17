@@ -1,11 +1,13 @@
 package cl.pablosilvab.demobackendspringboot.service;
 
+import cl.pablosilvab.demobackendspringboot.exception.NoStockException;
 import cl.pablosilvab.demobackendspringboot.model.Product;
 import cl.pablosilvab.demobackendspringboot.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -14,8 +16,8 @@ public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository;
 
     @Override
-    public Product find(long id) {
-        return productRepository.findById(id).orElse(null);
+    public Optional<Product> find(long id) {
+        return productRepository.findById(id);
     }
 
     @Override
@@ -25,20 +27,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(long id, Product product) {
-        Product projectById = this.find(id);
-        if (projectById == null) return null;
-        else {
-            projectById.setName(product.getName());
-            projectById.setDescription(product.getDescription());
-            projectById.setPrice(product.getPrice());
-            return productRepository.save(projectById);
+    public Optional<Product> update(long id, Product product) {
+        Optional<Product> p = this.find(id);
+        if (p.isPresent()) {
+            Product productById = p.get();
+            productById.setName(product.getName());
+            productById.setDescription(product.getDescription());
+            productById.setPrice(product.getPrice());
+            productById.setStock(product.getStock());
+            return Optional.of(productRepository.save(productById));
+        } else {
+          return Optional.empty();
         }
     }
 
     @Override
     public List<Product> findAll() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public Product minusStock(Product product, long quantity) throws NoStockException {
+        long currentStock = product.getStock();
+        if (currentStock >= quantity) {
+            product.setStock(currentStock - quantity);
+            return productRepository.save(product);
+        } else {
+            throw new NoStockException("No stock available");
+        }
     }
 
 }
