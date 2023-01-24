@@ -18,6 +18,12 @@ This API provide the following endpoints:
 
 ## Details 
 
+### Run with Maven
+
+```bash
+mvn spring-boot:run
+```
+
 ### Run with Docker
 
 * Build image 
