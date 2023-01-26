@@ -18,6 +18,25 @@ This API provide the following endpoints:
 
 ## Details 
 
+### Run with Maven
+
+```bash
+mvn spring-boot:run
+```
+
+### Run with Docker
+
+* Build image 
+```bash
+docker build -t demo-backend-spring-boot .
+```
+
+* Run a container
+```bash
+docker run -p 8080:8080 demo-backend-spring-boot
+```
+
+
 ### Create a product POST
 
 ```json
