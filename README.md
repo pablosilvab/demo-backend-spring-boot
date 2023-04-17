@@ -57,3 +57,23 @@ docker run -p 8080:8080 demo-backend-spring-boot
     "stock": 50
 }
 ```
+## Kubernetes deployment
+
+Push image to Docker Hub
+```bash
+docker build -t pablon27/demo-backend-spring-boot .
+docker push pablon27/demo-backend-spring-boot
+```
+
+Create a deployment yaml
+```bash
+kubectl create deploy demo-backend-spring-boot --image=pablon27/demo-backend-spring-boot --port=8080 --dry-run=client -o yaml > deployment.yaml
+```
+
+Expose deployment as load balancer service 
+```bash
+kubectl expose deployment/demo-backend-spring-boot --type=LoadBalancer --name=demo-backend-spring-boot-service
+kubectl expose deployment/demo-backend-spring-boot --type=LoadBalancer --name=demo-backend-spring-boot-service --dry-run=client -o yaml > deployment.yaml
+```
+
+Create external IP with ```minikube tunnel```
