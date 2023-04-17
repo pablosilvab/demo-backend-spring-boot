@@ -17,7 +17,7 @@ public class ProductRepositoryTest {
     Product product;
 
     @BeforeAll
-    private void setUp() {
+    public void setUp() {
         product = new Product(0, "Soundbar Xiaomi", "Soundbar", 55000, 50);
         productRepository.save(product);
     }
@@ -44,7 +44,7 @@ public class ProductRepositoryTest {
      * @since 24/03/2020
      */
     @AfterAll
-    private void tearDown() {
+    public void tearDown() {
         productRepository.deleteAll();
     }
 

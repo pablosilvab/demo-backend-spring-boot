@@ -1,6 +1,5 @@
 package cl.pablosilvab.demobackendspringboot.integration;
 
-import cl.pablosilvab.demobackendspringboot.model.Product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -15,9 +14,8 @@ import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.junit.jupiter.api.Assertions;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

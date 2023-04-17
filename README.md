@@ -18,6 +18,16 @@ This API provide the following endpoints:
 
 ## Details 
 
+### Create and run an executable jar
+
+```bash
+mvn clean package
+```
+
+```bash
+java -jar target/docker-message-server-1.0.0.jar
+```
+
 ### Run with Maven
 
 ```bash

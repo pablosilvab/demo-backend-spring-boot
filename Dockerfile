@@ -1,6 +1,4 @@
-FROM adoptopenjdk/openjdk11:alpine-jre
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM openjdk:17-jdk-slim
+EXPOSE 8080
+COPY target/demo-backend-spring-boot-0.1.jar demo-backend-spring-boot.jar
+ENTRYPOINT ["java","-jar","/demo-backend-spring-boot.jar"]

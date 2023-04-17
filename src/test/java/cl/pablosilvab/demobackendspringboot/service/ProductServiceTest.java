@@ -52,7 +52,7 @@ public class ProductServiceTest {
     }
 
     @AfterAll
-    private void tearDown() {
+    public void tearDown() {
         productRepository.deleteAll();
     }
 
