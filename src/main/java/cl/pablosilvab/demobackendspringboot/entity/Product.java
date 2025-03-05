@@ -13,7 +13,7 @@ import lombok.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long uuid;
+    private Long id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("description")

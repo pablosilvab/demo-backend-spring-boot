@@ -8,7 +8,7 @@ import lombok.Builder;
 @Builder
 public record ProductDTO(
         @Schema(description = "Product unique ID", example = "1")
-        Long uuid,
+        Long id,
         @Schema(description = "Product name", example = "Smart TV")
         @NotBlank @Size(max = 200)
         String name,

@@ -1,40 +1,40 @@
-services:
-  postgres:
-    container_name: postgres
-    image: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      PGDATA: /data/postgres
-    volumes:
-      - postgres:/data/postgres
-    ports:
-      - "5432:5432"
-    networks:
-      - postgres
-    restart: unless-stopped
+version: '3.8'
 
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: demo-mysql
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/var/lib/pgadmin
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: demo_backend_spring_boot
+      MYSQL_USER: demo_backend_spring_boot
+      MYSQL_PASSWORD: demo_backend_spring_boot
     ports:
-      - "5050:80"
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
     networks:
-      - postgres
-    restart: unless-stopped
+      - demo-network
+
+  demo-backend-spring-boot:
+    image: demo-backend-spring-boot
+    container_name: demo-backend-spring-boot
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo_backend_spring_boot
+      SPRING_DATASOURCE_USERNAME: demo_backend_spring_boot
+      SPRING_DATASOURCE_PASSWORD: demo_backend_spring_boot
+      SPRING_DATASOURCE_DRIVER-CLASS-NAME: com.mysql.cj.jdbc.Driver
+    ports:
+      - "8080:8080"
+    networks:
+      - demo-network
 
 networks:
-  postgres:
-    driver: bridge
-  spring:
+  demo-network:
     driver: bridge
 
 volumes:
-  postgres:
-  pgadmin:
+  mysql-data:
+    driver: local
