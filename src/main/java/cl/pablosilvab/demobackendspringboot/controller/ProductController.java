@@ -1,6 +1,8 @@
 package cl.pablosilvab.demobackendspringboot.controller;
 
-import cl.pablosilvab.demobackendspringboot.dto.ProductDTO;
+import cl.pablosilvab.demobackendspringboot.dto.model.ProductDTO;
+import cl.pablosilvab.demobackendspringboot.dto.request.ProductCreateDTO;
+import cl.pablosilvab.demobackendspringboot.dto.response.ProductResponseDTO;
 import cl.pablosilvab.demobackendspringboot.exception.ProductNotFoundException;
 import cl.pablosilvab.demobackendspringboot.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,20 +26,20 @@ public class ProductController {
 
     @Operation(summary = "Get all products", description = "Retrieve a list of all available products.")
     @GetMapping("/")
-    public ResponseEntity<List<ProductDTO>> getAll() {
+    public ResponseEntity<List<ProductResponseDTO>> getAll() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
     @Operation(summary = "Get a product by its id", description = "Retrieve a specific product by its unique ID.")
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> get(@PathVariable Long id) throws ProductNotFoundException {
+    public ResponseEntity<ProductResponseDTO> get(@PathVariable Long id) throws ProductNotFoundException {
         return ResponseEntity.ok(productService.getProductById(id));
     }
 
     @Operation(summary = "Create a product", description = "Create a new product with the provided details.")
     @PostMapping("/")
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
-        ProductDTO product = productService.createProduct(productDTO);
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductCreateDTO productCreateDTO) {
+        ProductDTO product = productService.createProduct(productCreateDTO);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
