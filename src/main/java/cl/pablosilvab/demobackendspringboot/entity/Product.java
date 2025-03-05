@@ -1,24 +1,19 @@
-package cl.pablosilvab.demobackendspringboot.model;
+package cl.pablosilvab.demobackendspringboot.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
 @ToString
-@Data
 @Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long uuid;
     @JsonProperty("name")
     private String name;
     @JsonProperty("description")

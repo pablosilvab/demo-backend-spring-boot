@@ -1,15 +1,13 @@
 package cl.pablosilvab.demobackendspringboot.service;
 
-import cl.pablosilvab.demobackendspringboot.exception.NoStockException;
-import cl.pablosilvab.demobackendspringboot.model.Product;
+import cl.pablosilvab.demobackendspringboot.dto.ProductDTO;
+import cl.pablosilvab.demobackendspringboot.exception.ProductNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProductService {
-	Optional<Product> find(long id);
-	Product create(Product product);
-	Optional<Product> update(long idValue, Product product);
-	List<Product> findAll();
-	Product minusStock(Product idValue, long quantity) throws NoStockException;
+	ProductDTO getProductById(long id) throws ProductNotFoundException;
+	ProductDTO createProduct(ProductDTO productDTO);
+	ProductDTO updateProduct(long idValue, ProductDTO productDTO);
+	List<ProductDTO> getAllProducts();
 }
