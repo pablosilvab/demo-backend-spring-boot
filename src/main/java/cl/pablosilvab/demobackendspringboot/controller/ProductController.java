@@ -7,6 +7,7 @@ import cl.pablosilvab.demobackendspringboot.exception.ProductNotFoundException;
 import cl.pablosilvab.demobackendspringboot.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class ProductController {
 
     @Operation(summary = "Create a product", description = "Create a new product with the provided details.")
     @PostMapping("/")
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductCreateDTO productCreateDTO) {
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductCreateDTO productCreateDTO) {
         ProductDTO product = productService.createProduct(productCreateDTO);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
