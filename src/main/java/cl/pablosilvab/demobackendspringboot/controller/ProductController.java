@@ -1,101 +1,48 @@
 package cl.pablosilvab.demobackendspringboot.controller;
 
-import cl.pablosilvab.demobackendspringboot.dto.Response;
-import cl.pablosilvab.demobackendspringboot.exception.NoStockException;
-import cl.pablosilvab.demobackendspringboot.model.Product;
+import cl.pablosilvab.demobackendspringboot.dto.model.ProductDTO;
+import cl.pablosilvab.demobackendspringboot.dto.request.ProductCreateDTO;
+import cl.pablosilvab.demobackendspringboot.dto.response.ProductResponseDTO;
+import cl.pablosilvab.demobackendspringboot.exception.ProductNotFoundException;
 import cl.pablosilvab.demobackendspringboot.service.ProductService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-@Slf4j
 @RestController
 @RequestMapping("api/v1/products")
+@Tag(name = "Product API", description = "Endpoints for managing products")
 public class ProductController {
 
-    @Autowired
-    ProductService productService;
+    private final ProductService productService;
 
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @Operation(summary = "Get all products", description = "Retrieve a list of all available products.")
     @GetMapping("/")
-    public ResponseEntity<Response<List<Product>>> getAll() {
-        Response<List<Product>> response = new Response<>();
-        response.setData(productService.findAll());
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<ProductResponseDTO>> getAll() {
+        return ResponseEntity.ok(productService.getAllProducts());
     }
 
+    @Operation(summary = "Get a product by its id", description = "Retrieve a specific product by its unique ID.")
     @GetMapping("/{id}")
-    public ResponseEntity<Response<Product>> get(@PathVariable String id) {
-        Response<Product> response = new Response<>();
-        try {
-            long idValue = Long.parseLong(id);
-            Optional<Product> foundProjectOpt = productService.find(idValue);
-            if (foundProjectOpt.isPresent()) {
-                Product foundProject = foundProjectOpt.get();
-                response.setData(foundProject);
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            } else {
-                response.addErrorMsgToResponse("There are no products registered with the number=" + id);
-                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-            }
-        } catch (NumberFormatException e) {
-            response.addErrorMsgToResponse("There are no products registered with value=" + id);
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ProductResponseDTO> get(@PathVariable Long id) throws ProductNotFoundException {
+        return ResponseEntity.ok(productService.getProductById(id));
     }
 
+    @Operation(summary = "Create a product", description = "Create a new product with the provided details.")
     @PostMapping("/")
-    public ResponseEntity<Response<Product>> create(@RequestBody Product project) {
-        Response<Product> response = new Response<>();
-        Product product = productService.create(project);
-        response.setData(product);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductCreateDTO productCreateDTO) {
+        ProductDTO product = productService.createProduct(productCreateDTO);
+        return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Response<Product>> update(@RequestBody Product product, @PathVariable String id) {
-        Response<Product> response = new Response<>();
-        try {
-            long idValue = Long.parseLong(id);
-            Optional<Product> updatedProjectOpt = productService.update(idValue, product);
-            if (updatedProjectOpt.isPresent()) {
-                Product updatedProject = updatedProjectOpt.get();
-                response.setData(updatedProject);
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            } else {
-                response.addErrorMsgToResponse("There are no products registered with the number=" + id);
-                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-            }
-        } catch (NumberFormatException e) {
-            response.addErrorMsgToResponse("There are no products registered with the value=" + id);
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
 
-    @PutMapping("/{id}/purchase")
-    public ResponseEntity<Response<Product>> updateStock(@PathVariable String id, @RequestBody long quantity) throws NoStockException {
-        Response<Product> response = new Response<>();
-        try {
-            long idValue = Long.parseLong(id);
-            Optional<Product> productOpt = productService.find(idValue);
-            if (productOpt.isPresent()) {
-                Product product = productOpt.get();
-                response.setData(productService.minusStock(product, quantity));
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            } else {
-                response.addErrorMsgToResponse("There are no products registered with the number=" + id);
-                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-            }
-        } catch (NumberFormatException e) {
-            response.addErrorMsgToResponse("There are no products registered with the number=" + id);
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        } catch (NoStockException e) {
-            response.addErrorMsgToResponse(e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-    }
 }

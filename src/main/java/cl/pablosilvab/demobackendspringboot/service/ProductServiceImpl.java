@@ -1,60 +1,67 @@
 package cl.pablosilvab.demobackendspringboot.service;
 
-import cl.pablosilvab.demobackendspringboot.exception.NoStockException;
-import cl.pablosilvab.demobackendspringboot.model.Product;
+import cl.pablosilvab.demobackendspringboot.dto.model.ProductDTO;
+import cl.pablosilvab.demobackendspringboot.dto.request.ProductCreateDTO;
+import cl.pablosilvab.demobackendspringboot.dto.response.ProductResponseDTO;
+import cl.pablosilvab.demobackendspringboot.entity.Product;
+import cl.pablosilvab.demobackendspringboot.entity.ProductType;
+import cl.pablosilvab.demobackendspringboot.exception.ProductNotFoundException;
+import cl.pablosilvab.demobackendspringboot.mapper.ProductMapper;
 import cl.pablosilvab.demobackendspringboot.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import cl.pablosilvab.demobackendspringboot.service.strategy.ProductCreationStrategy;
+import cl.pablosilvab.demobackendspringboot.service.strategy.ProductCreationStrategyFactory;
+import cl.pablosilvab.demobackendspringboot.utils.ProductFormatter;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
+    private final ProductFormatter productFormatter;
+    private final ProductCreationStrategyFactory productCreationStrategyFactory;
 
-    @Override
-    public Optional<Product> find(long id) {
-        return productRepository.findById(id);
+    public ProductServiceImpl(ProductRepository productRepository,
+                              ProductMapper productMapper,
+                              ProductFormatter productFormatter,
+                              ProductCreationStrategyFactory productCreationStrategyFactory) {
+        this.productRepository = productRepository;
+        this.productMapper = productMapper;
+        this.productFormatter = productFormatter;
+        this.productCreationStrategyFactory = productCreationStrategyFactory;
     }
 
     @Override
-    public Product create(Product product) {
-        Product saved = productRepository.save(product);
-        return saved;
+    public ProductResponseDTO getProductById(long id) throws ProductNotFoundException {
+        return productRepository.findById(id)
+                .map(product -> productMapper.toResponseDTO(product, productFormatter))
+                .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
+    }
+
+    @Transactional
+    @Override
+    public ProductDTO createProduct(ProductCreateDTO productDTO) {
+        ProductType productType = ProductType.valueOf(productDTO.type().toUpperCase());
+        ProductCreationStrategy strategy = productCreationStrategyFactory.getStrategy(productType);
+        Product product = strategy.createProduct(productDTO);
+        Product savedProduct = productRepository.save(product);
+        return productMapper.toDTO(savedProduct);
     }
 
     @Override
-    public Optional<Product> update(long id, Product product) {
-        Optional<Product> p = this.find(id);
-        if (p.isPresent()) {
-            Product productById = p.get();
-            productById.setName(product.getName());
-            productById.setDescription(product.getDescription());
-            productById.setPrice(product.getPrice());
-            productById.setStock(product.getStock());
-            return Optional.of(productRepository.save(productById));
-        } else {
-          return Optional.empty();
-        }
+    public ProductDTO updateProduct(long idValue, ProductDTO productDTO) {
+        return null;
     }
 
     @Override
-    public List<Product> findAll() {
-        return productRepository.findAll();
-    }
-
-    @Override
-    public Product minusStock(Product product, long quantity) throws NoStockException {
-        long currentStock = product.getStock();
-        if (currentStock >= quantity) {
-            product.setStock(currentStock - quantity);
-            return productRepository.save(product);
-        } else {
-            throw new NoStockException("No stock available");
-        }
+    public List<ProductResponseDTO> getAllProducts() {
+        return productRepository.findAll()
+                .stream()
+                .map(product -> productMapper.toResponseDTO(product, productFormatter))
+                .toList();
     }
 
 }

@@ -1,79 +1,82 @@
-# Demo Spring Boot
+# Demo Spring Boot API
 
-This project is an API for products management. 
- 
-## Build with
+This project is a **REST API** for managing products, built using **Spring Boot** and **Java 17**.
 
-* Java 
-* Spring Boot
- 
+## 🚀 Technologies Used
 
-## Features
+- **Java 17**
+- **Spring Boot**
+- **Spring Data JPA** (for database interaction)
+- **Spring Validation** (for request validation)
+- **MapStruct** (for object mapping)
+- **Lombok** (to reduce boilerplate code)
+- **Swagger** (for API documentation)
+- **Docker** (for containerization)
 
-This API provide the following endpoints:
+## 📌 Features
 
-* Get all products: GET `/api/v1/products`
-* Get product by id: GET `/api/v1/products/1`
-* Create a product: POST `/api/v1/products/`
+This API provides the following endpoints:
 
-## Details 
+| Method | Endpoint                     | Description                  |
+|--------|------------------------------|------------------------------|
+| GET    | `/api/v1/products`           | Retrieve all products        |
+| GET    | `/api/v1/products/{id}`      | Retrieve a product by ID     |
+| POST   | `/api/v1/products`           | Create a new product        |
+| PUT    | `/api/v1/products/{id}`      | Update an existing product  |
+| DELETE | `/api/v1/products/{id}`      | Delete a product            |
 
-### Create and run an executable jar
+## 🛠️ Setup and Usage
 
+### 1️⃣ Clone the repository
 ```bash
-mvn clean package
+git clone https://github.com/your-username/demo-backend-spring-boot.git
+cd demo-backend-spring-boot
 ```
 
-```bash
-java -jar target/docker-message-server-1.0.0.jar
-```
-
-### Run with Maven
-
+### 2️⃣ Run with Maven
 ```bash
 mvn spring-boot:run
 ```
 
-### Run with Docker
+### 3️⃣ Run with Docker
 
-* Build image 
+#### Build the Docker image
 ```bash
 docker build -t demo-backend-spring-boot .
 ```
 
-* Run a container
+#### Run a Docker container
 ```bash
 docker run -p 8080:8080 demo-backend-spring-boot
 ```
 
-
-### Create a product POST
-
+### 4️⃣ API Usage Example
+#### Create a Product (POST `/api/v1/products`)
 ```json
 {
     "name": "SoundBar",
-    "description": "Sounbar",
+    "description": "High-quality sound system",
     "price": 15000,
     "stock": 50
 }
 ```
-## Kubernetes deployment
 
-Push image to Docker Hub
-```bash
-docker build -t pablon27/demo-backend-spring-boot .
-docker push pablon27/demo-backend-spring-boot
+#### Get a Product by ID (GET `/api/v1/products/1`)
+```json
+{
+    "id": 1,
+    "name": "SoundBar",
+    "description": "High-quality sound system",
+    "price": 15000,
+    "stock": 50
+}
 ```
 
-Create a deployment yaml
-```bash
-kubectl create deploy demo-backend-spring-boot --image=pablon27/demo-backend-spring-boot --port=8080 --dry-run=client -o yaml > deployment.yaml
+## 📄 API Documentation
+You can explore and test the API using **Swagger UI**:
+```
+http://localhost:8080/swagger-ui/index.html
 ```
 
-Expose deployment as load balancer service 
-```bash
-kubectl expose deployment/demo-backend-spring-boot --type=LoadBalancer --name=demo-backend-spring-boot-service
-kubectl expose deployment/demo-backend-spring-boot --type=LoadBalancer --name=demo-backend-spring-boot-service --dry-run=client -o yaml > deployment.yaml
-```
-
-Create external IP with ```minikube tunnel```
+## ✅ License
+This project is open-source and available under the [MIT License](LICENSE).

@@ -1,4 +1,14 @@
-FROM openjdk:17-jdk-slim
+FROM maven:3.8.3-openjdk-17 AS build
+WORKDIR /app
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+COPY src /app/src
+RUN mvn clean package -DskipTests
+
+FROM openjdk:17-slim
+RUN addgroup --system spring && adduser --system --ingroup spring spring
+USER spring:spring
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-COPY target/demo-backend-spring-boot-0.1.jar demo-backend-spring-boot.jar
-ENTRYPOINT ["java","-jar","/demo-backend-spring-boot.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
