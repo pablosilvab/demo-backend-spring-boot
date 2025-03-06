@@ -21,5 +21,9 @@ public record ProductCreateDTO(
 
         @Schema(description = "Available stock", example = "25")
         @Min(value = 0, message = "Stock cannot be negative")
-        long stock) {
+        long stock,
+
+        @Schema(description = "Product type", example = "ELECTRONIC")
+        String type
+) {
 }

@@ -5,5 +5,7 @@ public record ProductResponseDTO(
         String name,
         String description,
         String formattedPrice,
-        String availabilityStatus) {
+        String availabilityStatus,
+        String type
+) {
 }

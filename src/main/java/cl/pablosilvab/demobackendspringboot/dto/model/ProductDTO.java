@@ -17,6 +17,8 @@ public record ProductDTO(
         @Schema(example = "459000")
         long price,
         @Schema(description = "Available stock", example = "25")
-        long stock
+        long stock,
+        @Schema(description = "Product type", example = "ELECTRONIC")
+        String type
 ) {
 }

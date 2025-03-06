@@ -22,4 +22,7 @@ public class Product {
     private long price;
     @JsonProperty("stock")
     private long stock;
+    @JsonProperty("type")
+    @Enumerated(EnumType.STRING)
+    private ProductType type;
 }
