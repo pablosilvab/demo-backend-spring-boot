@@ -3,7 +3,6 @@ package cl.pablosilvab.demobackendspringboot.controller;
 import cl.pablosilvab.demobackendspringboot.dto.model.ProductDTO;
 import cl.pablosilvab.demobackendspringboot.dto.request.ProductCreateDTO;
 import cl.pablosilvab.demobackendspringboot.entity.ProductType;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
