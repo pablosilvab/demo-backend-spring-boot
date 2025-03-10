@@ -4,11 +4,11 @@ This project is a **REST API** for managing products, built using **Spring Boot*
 
 ## 🚀 Technologies Used
 
-- **Java 17**
-- **Spring Boot**
+- **Java 21**
+- **Spring Boot 3.4.3**
 - **Spring Data JPA** (for database interaction)
 - **Spring Validation** (for request validation)
-- **MapStruct** (for object mapping)
+- **MapStruct 1.6.0** (for object mapping)
 - **Lombok** (to reduce boilerplate code)
 - **Swagger** (for API documentation)
 - **Docker** (for containerization)
@@ -45,9 +45,9 @@ mvn spring-boot:run
 docker build -t demo-backend-spring-boot .
 ```
 
-#### Run a Docker container
+#### Run Docker services
 ```bash
-docker run -p 8080:8080 demo-backend-spring-boot
+docker-compose up -d
 ```
 
 ### 4️⃣ API Usage Example
