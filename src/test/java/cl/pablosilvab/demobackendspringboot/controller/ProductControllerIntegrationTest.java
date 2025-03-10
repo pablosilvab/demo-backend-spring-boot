@@ -3,6 +3,7 @@ package cl.pablosilvab.demobackendspringboot.controller;
 import cl.pablosilvab.demobackendspringboot.dto.model.ProductDTO;
 import cl.pablosilvab.demobackendspringboot.dto.request.ProductCreateDTO;
 import cl.pablosilvab.demobackendspringboot.entity.ProductType;
+import cl.pablosilvab.demobackendspringboot.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,7 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -33,6 +33,9 @@ class ProductControllerIntegrationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
@@ -52,5 +55,7 @@ class ProductControllerIntegrationTest {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals("Smartphone", response.getBody().name());
+
+        assertTrue(productRepository.existsByName("Smartphone"));
     }
 }
