@@ -12,9 +12,9 @@ import cl.pablosilvab.demobackendspringboot.service.strategy.ProductCreationStra
 import cl.pablosilvab.demobackendspringboot.service.strategy.ProductCreationStrategyFactory;
 import cl.pablosilvab.demobackendspringboot.utils.ProductFormatter;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -57,11 +57,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponseDTO> getAllProducts() {
-        return productRepository.findAll()
-                .stream()
-                .map(product -> productMapper.toResponseDTO(product, productFormatter))
-                .toList();
+    public Page<ProductResponseDTO> getAllProducts(Pageable pageable) {
+        return productRepository
+                .findAll(pageable)
+                .map(product -> productMapper.toResponseDTO(product, productFormatter));
     }
 
 }

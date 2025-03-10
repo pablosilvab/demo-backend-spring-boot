@@ -47,7 +47,7 @@ class ProductControllerIntegrationTest {
         ProductCreateDTO productCreateDTO = new ProductCreateDTO("Smartphone", "A new smartphone", 200000, 50, ProductType.ELECTRONIC.name());
 
         ResponseEntity<ProductDTO> response = restTemplate
-                .postForEntity("/api/v1/products/", productCreateDTO, ProductDTO.class);
+                .postForEntity("/api/v1/products", productCreateDTO, ProductDTO.class);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
