@@ -5,6 +5,7 @@ import cl.pablosilvab.demobackendspringboot.dto.request.ProductCreateDTO;
 import cl.pablosilvab.demobackendspringboot.dto.response.ProductResponseDTO;
 import cl.pablosilvab.demobackendspringboot.entity.Product;
 import cl.pablosilvab.demobackendspringboot.entity.ProductType;
+import cl.pablosilvab.demobackendspringboot.exception.InvalidProductTypeException;
 import cl.pablosilvab.demobackendspringboot.exception.ProductNotFoundException;
 import cl.pablosilvab.demobackendspringboot.mapper.ProductMapper;
 import cl.pablosilvab.demobackendspringboot.repository.ProductRepository;
@@ -12,9 +13,13 @@ import cl.pablosilvab.demobackendspringboot.service.strategy.ProductCreationStra
 import cl.pablosilvab.demobackendspringboot.service.strategy.ProductCreationStrategyFactory;
 import cl.pablosilvab.demobackendspringboot.utils.ProductFormatter;
 import jakarta.transaction.Transactional;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -44,6 +49,14 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public ProductDTO createProduct(ProductCreateDTO productDTO) {
+        String type = productDTO.type().toUpperCase();
+        if (!EnumUtils.isValidEnum(ProductType.class, type)) {
+            throw new InvalidProductTypeException("Invalid product type: " + type +
+                    ". Valid types are: " + Arrays.stream(ProductType.values())
+                    .map(Enum::name)
+                    .collect(Collectors.joining(", ")));
+        }
+
         ProductType productType = ProductType.valueOf(productDTO.type().toUpperCase());
         ProductCreationStrategy strategy = productCreationStrategyFactory.getStrategy(productType);
         Product product = strategy.createProduct(productDTO);

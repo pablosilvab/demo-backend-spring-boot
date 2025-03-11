@@ -23,7 +23,8 @@ public class CustomUserDetailsService implements org.springframework.security.co
         cl.pablosilvab.demobackendspringboot.entity.User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return new User(user.getUsername(),
+        return new User(
+                user.getUsername(),
                 user.getPassword(),
                 user.getRoles().stream()
                         .map(SimpleGrantedAuthority::new)

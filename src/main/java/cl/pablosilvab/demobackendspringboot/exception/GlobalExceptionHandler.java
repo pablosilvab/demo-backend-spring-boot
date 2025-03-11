@@ -62,5 +62,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidProductTypeException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidProductType(InvalidProductTypeException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                "Bad Request",
+                ex.getMessage(),
+                HttpStatus.NOT_FOUND.value()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
 
 }
