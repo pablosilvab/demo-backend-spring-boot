@@ -52,8 +52,8 @@ docker-compose up -d
 
 #### Push Docker image
 ```bash
-docker tag demo-backend-spring-boot $(IMAGE_REGISTRY)/demo-backend-spring-boot
-docker push $(IMAGE_REGISTRY)/demo-backend-spring-boot
+docker tag demo-backend-spring-boot pablon27/demo-backend-spring-boot:1.0.0
+docker push pablon27/demo-backend-spring-boot:1.0.0
 ```
 
 
