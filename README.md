@@ -50,6 +50,13 @@ docker build -t demo-backend-spring-boot .
 docker-compose up -d
 ```
 
+#### Push Docker image
+```bash
+docker tag demo-backend-spring-boot $(IMAGE_REGISTRY)/demo-backend-spring-boot
+docker push $(IMAGE_REGISTRY)/demo-backend-spring-boot
+```
+
+
 ### 4️⃣ API Usage Example
 #### Create a Product (POST `/api/v1/products`)
 ```json
